@@ -57,12 +57,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact, onOpenP
       {/* Subtle depth vignette overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/40 pointer-events-none" />
 
-      {/* 2. Big Scrolling Name Track (z-10) with font-black (font-weight: 900) */}
+      {/* 2. Big Scrolling Name Track (z-10) with fluid responsive scaling */}
       <div
-        className="absolute inset-x-0 top-[11vh] sm:top-[12vh] md:top-[14vh] z-10 overflow-hidden anim-fade-up pointer-events-none"
+        className="absolute inset-x-0 top-[12vh] sm:top-[12vh] md:top-[14vh] z-10 overflow-hidden anim-fade-up pointer-events-none"
         style={{ animationDelay: '500ms' }}
       >
-        <div className="marquee-track flex w-max whitespace-nowrap font-kanit text-[10vh] xs:text-[12vh] sm:text-[20vh] md:text-[26vh] leading-none text-cream font-black tracking-tight opacity-85">
+        <div className="marquee-track flex w-max whitespace-nowrap font-kanit text-[clamp(4.2rem,13.5vh,6.8rem)] sm:text-[clamp(6.5rem,20vh,14rem)] md:text-[clamp(8.5rem,25vh,18rem)] leading-none text-cream font-black tracking-tight opacity-85">
           <span className="pr-[10vw] sm:pr-[14vw]">Hi,&nbsp;&nbsp;I am Zeeshan</span>
           <span className="pr-[10vw] sm:pr-[14vw]">Hi,&nbsp;&nbsp;I am Zeeshan</span>
           <span className="pr-[10vw] sm:pr-[14vw]">Hi,&nbsp;&nbsp;I am Zeeshan</span>
