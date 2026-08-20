@@ -60,29 +60,29 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, totalCards })
           scale,
           top: `${index * 28}px`,
         }}
-        className="w-full max-w-6xl bg-[#0C0C0C] border-2 border-[#D7E2EA] rounded-[40px] sm:rounded-[50px] md:rounded-[60px] p-5 sm:p-7 md:p-10 shadow-2xl transition-shadow duration-300 hover:shadow-[0_20px_50px_rgba(215,226,234,0.08)]"
+        className="w-full max-w-6xl bg-[#FFFFFF] text-[#0C0C0C] border-2 border-[rgba(12,12,12,0.12)] rounded-[40px] sm:rounded-[50px] md:rounded-[60px] p-5 sm:p-7 md:p-10 shadow-2xl transition-shadow duration-300 hover:shadow-[0_25px_60px_rgba(0,0,0,0.12)]"
       >
         {/* Top Header Row */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 sm:pb-8 border-b border-[#D7E2EA]/20">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 sm:pb-8 border-b border-[rgba(12,12,12,0.12)]">
           <div className="flex items-center gap-4 sm:gap-6">
             {/* Project Number */}
-            <span className="font-black text-4xl sm:text-5xl md:text-6xl text-[#D7E2EA] tracking-tighter">
+            <span className="font-black text-4xl sm:text-5xl md:text-6xl text-[#0C0C0C] tracking-tighter">
               {project.number}
             </span>
 
             {/* Category & Project Name */}
             <div>
-              <span className="block text-xs sm:text-sm uppercase tracking-widest text-[#D7E2EA]/60 font-light">
+              <span className="block text-xs sm:text-sm uppercase tracking-widest text-[#0C0C0C]/60 font-light">
                 {project.category}
               </span>
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase text-cream tracking-wide">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase text-[#0C0C0C] tracking-wide">
                 {project.name}
               </h3>
             </div>
           </div>
 
-          {/* Ghost Live Project Button */}
-          <LiveProjectButton href={project.liveUrl} label="Live Project" />
+          {/* Live Project Button */}
+          <LiveProjectButton href={project.liveUrl} label="Live Project" variant="dark" />
         </div>
 
         {/* Bottom Two-Column Image Grid */}
@@ -90,7 +90,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, totalCards })
           {/* Left Column (40% width / 4 cols) - 2 Stacked Images */}
           <div className="md:col-span-4 flex flex-col gap-4 sm:gap-6">
             {/* Top Left Image */}
-            <div className="w-full h-[clamp(130px,16vw,230px)] rounded-[30px] sm:rounded-[40px] md:rounded-[50px] overflow-hidden border border-[#D7E2EA]/20 bg-neutral-900 group">
+            <div className="w-full h-[clamp(130px,16vw,230px)] rounded-[30px] sm:rounded-[40px] md:rounded-[50px] overflow-hidden border border-[rgba(12,12,12,0.1)] bg-neutral-100 group">
               <img
                 src={project.col1Img1}
                 alt={`${project.name} Preview 1`}
@@ -100,7 +100,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, totalCards })
             </div>
 
             {/* Bottom Left Image */}
-            <div className="w-full h-[clamp(160px,22vw,340px)] rounded-[30px] sm:rounded-[40px] md:rounded-[50px] overflow-hidden border border-[#D7E2EA]/20 bg-neutral-900 group">
+            <div className="w-full h-[clamp(160px,22vw,340px)] rounded-[30px] sm:rounded-[40px] md:rounded-[50px] overflow-hidden border border-[rgba(12,12,12,0.1)] bg-neutral-100 group">
               <img
                 src={project.col1Img2}
                 alt={`${project.name} Preview 2`}
@@ -111,7 +111,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, totalCards })
           </div>
 
           {/* Right Column (60% width / 6 cols) - 1 Tall Image */}
-          <div className="md:col-span-6 h-[clamp(280px,38vw,594px)] rounded-[30px] sm:rounded-[40px] md:rounded-[50px] overflow-hidden border border-[#D7E2EA]/20 bg-neutral-900 group">
+          <div className="md:col-span-6 h-[clamp(280px,38vw,594px)] rounded-[30px] sm:rounded-[40px] md:rounded-[50px] overflow-hidden border border-[rgba(12,12,12,0.1)] bg-neutral-100 group">
             <img
               src={project.col2Img}
               alt={`${project.name} Preview Main`}
