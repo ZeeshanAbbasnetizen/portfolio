@@ -211,7 +211,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                   <span>GitHub</span>
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/zeeshan-abbas-b7b9393b7/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 text-cream/80 hover:text-cream transition-colors"

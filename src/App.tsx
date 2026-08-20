@@ -50,7 +50,7 @@ export const App: React.FC = () => {
               <Github size={20} />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/zeeshan-abbas-b7b9393b7/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#9FA8B0] hover:text-cream transition-colors"

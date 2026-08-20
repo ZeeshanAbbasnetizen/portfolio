@@ -56,10 +56,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
         style={{ animationDelay: '500ms' }}
       >
         <div className="marquee-track flex w-max whitespace-nowrap font-kanit text-[16vh] sm:text-[26vh] leading-none text-cream font-black tracking-tight opacity-90">
-          <span className="pr-[6vw]">Hi I am Zeeshan</span>
-          <span className="pr-[6vw]">Hi I am Zeeshan</span>
-          <span className="pr-[6vw]">Hi I am Zeeshan</span>
-          <span className="pr-[6vw]">Hi I am Zeeshan</span>
+          <span className="pr-[14vw]">Hi,&nbsp;&nbsp;I am Zeeshan</span>
+          <span className="pr-[14vw]">Hi,&nbsp;&nbsp;I am Zeeshan</span>
+          <span className="pr-[14vw]">Hi,&nbsp;&nbsp;I am Zeeshan</span>
+          <span className="pr-[14vw]">Hi,&nbsp;&nbsp;I am Zeeshan</span>
         </div>
       </div>
 
