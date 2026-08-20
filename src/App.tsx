@@ -4,10 +4,12 @@ import { AboutSection } from './components/AboutSection';
 import { ServicesSection } from './components/ServicesSection';
 import { ProjectsSection } from './components/ProjectsSection';
 import { ContactModal } from './components/ContactModal';
+import { PriceModal } from './components/PriceModal';
 import { ArrowUp, Github, Linkedin, Mail } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isPriceOpen, setIsPriceOpen] = useState(false);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -16,7 +18,10 @@ export const App: React.FC = () => {
   return (
     <div className="bg-[#0C0C0C] min-h-screen text-[#D7E2EA] font-kanit overflow-x-clip selection:bg-purple-600 selection:text-white">
       {/* 1. Hero Section (Pixel-faithful Black/Cream Editorial) */}
-      <HeroSection onOpenContact={() => setIsContactOpen(true)} />
+      <HeroSection
+        onOpenContact={() => setIsContactOpen(true)}
+        onOpenPrice={() => setIsPriceOpen(true)}
+      />
 
       {/* 2. Main Body Content (Dark Kanit-based flow) */}
       <main className="relative z-10">
@@ -76,7 +81,15 @@ export const App: React.FC = () => {
         </div>
       </footer>
 
-      {/* Interactive Contact Modal */}
+      {/* Interactive Modals */}
+      <PriceModal
+        isOpen={isPriceOpen}
+        onClose={() => setIsPriceOpen(false)}
+        onOpenContact={() => {
+          setIsPriceOpen(false);
+          setIsContactOpen(true);
+        }}
+      />
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </div>
   );

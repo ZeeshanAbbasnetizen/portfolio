@@ -5,9 +5,10 @@ import { FadeIn } from './FadeIn';
 
 interface HeroSectionProps {
   onOpenContact: () => void;
+  onOpenPrice: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact, onOpenPrice }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
@@ -23,12 +24,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
 
   const navItems = [
     { label: 'About', href: '#about' },
-    { label: 'Price', href: '#services' },
+    { label: 'Price', href: '#services', isPrice: true },
     { label: 'Projects', href: '#projects' },
     { label: 'Contact', href: '#contact', isContact: true },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: typeof navItems[0]) => {
+    if (item.isPrice) {
+      e.preventDefault();
+      onOpenPrice();
+      setDrawerOpen(false);
+      return;
+    }
     if (item.isContact) {
       e.preventDefault();
       onOpenContact();
