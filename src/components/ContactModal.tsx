@@ -11,6 +11,7 @@ import {
   ExternalLink,
   Loader2,
   AlertCircle,
+  MessageCircle,
 } from 'lucide-react';
 import { EMAIL_CONFIG } from '../config/email';
 
@@ -19,27 +20,53 @@ interface ContactModalProps {
   onClose: () => void;
 }
 
+const WhatsAppIcon: React.FC<{ size?: number; className?: string }> = ({ size = 20, className = '' }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M17.472 14.382C17.152 14.222 15.586 13.454 15.293 13.347C15 13.24 14.787 13.187 14.574 13.507C14.36 13.827 13.748 14.547 13.561 14.76C13.375 14.974 13.188 15 12.868 14.84C12.548 14.68 11.517 14.342 10.293 13.251C9.341 12.403 8.698 11.354 8.511 11.034C8.325 10.714 8.491 10.541 8.652 10.381C8.796 10.237 8.972 10.007 9.132 9.82C9.292 9.633 9.345 9.5 9.452 9.287C9.559 9.073 9.505 8.887 9.425 8.727C9.345 8.567 8.705 7.02 8.439 6.38C8.179 5.757 7.915 5.842 7.719 5.832C7.532 5.823 7.319 5.821 7.106 5.821C6.892 5.821 6.546 5.901 6.253 6.221C5.959 6.541 5.133 7.314 5.133 8.887C5.133 10.46 6.28 11.98 6.44 12.193C6.6 12.407 8.694 15.639 11.905 17.025C12.669 17.355 13.266 17.552 13.731 17.7C14.499 17.944 15.197 17.91 15.751 17.827C16.369 17.735 17.653 17.05 17.92 16.297C18.187 15.544 18.187 14.904 18.107 14.77C18.027 14.637 17.813 14.544 17.472 14.382Z"
+      fill="currentColor"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 2C6.477 2 2 6.477 2 12C2 13.819 2.486 15.525 3.332 17L2.052 21.673C1.984 21.921 2.059 22.185 2.247 22.361C2.435 22.537 2.705 22.593 2.949 22.507L7.433 20.932C8.829 21.621 10.373 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2ZM4 12C4 7.582 7.582 4 12 4C16.418 4 20 7.582 20 12C20 16.418 16.418 20 12 20C10.598 20 9.278 19.638 8.131 19.004L7.842 18.843L4.996 19.839L5.808 16.877L5.626 16.574C4.604 14.869 4 12.502 4 12Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
 export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
-  const [copied, setCopied] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'activation_required' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
 
   const emailAddress = EMAIL_CONFIG.recipientEmail;
+  const whatsappNumber = EMAIL_CONFIG.whatsappDisplay;
+  const whatsappUrl = EMAIL_CONFIG.whatsappUrl;
 
   const copyEmail = () => {
     navigator.clipboard.writeText(emailAddress);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
+  const copyPhone = () => {
+    navigator.clipboard.writeText(EMAIL_CONFIG.whatsappNumber);
+    setCopiedPhone(true);
+    setTimeout(() => setCopiedPhone(false), 2000);
   };
 
   const subjectText = `${EMAIL_CONFIG.subjectPrefix} ${formState.name || 'Client'}`;
-  const emailBody = `Hi Zeeshan,\n\n${formState.message}\n\n---\nFrom: ${formState.name}\nEmail: ${formState.email}`;
-
-  const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
-    emailAddress
-  )}&su=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(emailBody)}`;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +74,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
     setErrorMessage('');
 
     try {
-      // 1. Direct Background POST to FormSubmit (No drafts, no mail apps, direct to inbox)
+      // Direct Background POST to FormSubmit (No drafts, no mail apps, direct to inbox)
       const response = await fetch(EMAIL_CONFIG.formSubmitEndpoint, {
         method: 'POST',
         headers: {
@@ -70,10 +97,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
         setSubmitStatus('success');
         setFormState({ name: '', email: '', message: '' });
       } else if (data.message && data.message.toLowerCase().includes('activation')) {
-        // First-time activation notice sent to owner's inbox
         setSubmitStatus('activation_required');
       } else {
-        // Even if non-standard json, mark success if status is OK
         if (response.ok) {
           setSubmitStatus('success');
           setFormState({ name: '', email: '', message: '' });
@@ -84,7 +109,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
       }
     } catch (err: any) {
       setSubmitStatus('error');
-      setErrorMessage('Network connection error. Please try again or use direct email.');
+      setErrorMessage('Network connection error. Please try again or reach out via WhatsApp.');
     } finally {
       setIsSubmitting(false);
     }
@@ -133,34 +158,82 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                 Let's Connect
               </h3>
               <p className="text-sm sm:text-base text-[#9FA8B0] font-light mt-2">
-                Have a project in mind, need custom UI/UX design, or want to build a full-stack product? Send a direct message!
+                Have a project in mind, need custom UI/UX design, or want to build a full-stack product? Reach out directly!
               </p>
             </div>
 
-            {/* Direct Email Card */}
-            <div className="bg-[#1C1C1C] border border-[#2C2C2C] hover:border-[#7621B0]/50 transition-colors rounded-2xl p-4 flex items-center justify-between mb-6 group">
-              <div className="flex items-center gap-3 overflow-hidden flex-1">
-                <div className="w-10 h-10 rounded-xl bg-purple-950/60 border border-purple-500/30 flex items-center justify-center shrink-0 text-purple-400 group-hover:scale-105 transition-transform">
-                  <Mail size={18} />
-                </div>
-                <div className="truncate">
-                  <div className="text-xs text-[#808890] uppercase font-medium">
-                    Direct Email Inbox
+            {/* Direct Quick Contact Options: WhatsApp & Email */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+              {/* WhatsApp Quick Card */}
+              <div className="bg-[#121E17] border border-[#1F3D2C] hover:border-[#25D366]/60 transition-colors rounded-2xl p-3.5 flex items-center justify-between group">
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2.5 overflow-hidden flex-1 no-underline text-inherit"
+                  title="Chat on WhatsApp"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-[#25D366]/20 border border-[#25D366]/40 flex items-center justify-center shrink-0 text-[#25D366] group-hover:scale-105 transition-transform">
+                    <WhatsAppIcon size={18} />
                   </div>
-                  <div className="text-sm sm:text-base text-cream font-semibold truncate">
-                    {emailAddress}
+                  <div className="truncate">
+                    <div className="text-[10px] text-[#4ADE80] uppercase font-bold tracking-wider">
+                      WhatsApp Chat
+                    </div>
+                    <div className="text-xs sm:text-sm text-cream font-semibold truncate group-hover:text-[#4ADE80] transition-colors">
+                      {whatsappNumber}
+                    </div>
                   </div>
+                </a>
+                <div className="flex items-center gap-1 shrink-0 ml-1.5">
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1.5 rounded-lg bg-[#1F3D2C] hover:bg-[#25D366] hover:text-black text-[#4ADE80] text-xs transition-colors cursor-pointer"
+                    title="Open WhatsApp chat"
+                  >
+                    <ExternalLink size={13} />
+                  </a>
+                  <button
+                    type="button"
+                    onClick={copyPhone}
+                    className="p-1.5 rounded-lg bg-[#1C2C22] hover:bg-[#283E30] text-xs text-cream transition-colors cursor-pointer"
+                    title="Copy WhatsApp number"
+                  >
+                    {copiedPhone ? <Check size={13} className="text-green-400" /> : <Copy size={13} />}
+                  </button>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={copyEmail}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#2A2A2A] hover:bg-[#353535] text-xs text-cream transition-colors cursor-pointer shrink-0 ml-2"
-                title="Copy email to clipboard"
-              >
-                {copied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
-                <span>{copied ? 'Copied!' : 'Copy'}</span>
-              </button>
+
+              {/* Direct Email Card */}
+              <div className="bg-[#1C1724] border border-[#35254A] hover:border-[#7621B0]/60 transition-colors rounded-2xl p-3.5 flex items-center justify-between group">
+                <a
+                  href={`mailto:${emailAddress}`}
+                  className="flex items-center gap-2.5 overflow-hidden flex-1 no-underline text-inherit"
+                  title="Send Email"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-purple-950/70 border border-purple-500/40 flex items-center justify-center shrink-0 text-purple-400 group-hover:scale-105 transition-transform">
+                    <Mail size={18} />
+                  </div>
+                  <div className="truncate">
+                    <div className="text-[10px] text-purple-400 uppercase font-bold tracking-wider">
+                      Direct Email
+                    </div>
+                    <div className="text-xs sm:text-sm text-cream font-semibold truncate group-hover:text-purple-300 transition-colors">
+                      {emailAddress}
+                    </div>
+                  </div>
+                </a>
+                <button
+                  type="button"
+                  onClick={copyEmail}
+                  className="p-1.5 rounded-lg bg-[#271E36] hover:bg-[#382B4E] text-xs text-cream transition-colors cursor-pointer shrink-0 ml-1.5"
+                  title="Copy email address"
+                >
+                  {copiedEmail ? <Check size={13} className="text-green-400" /> : <Copy size={13} />}
+                </button>
+              </div>
             </div>
 
             {/* Success State */}
@@ -179,16 +252,25 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                 <p className="text-sm text-[#9FA8B0] mt-2 mb-6">
                   Thank you! Your message has been sent directly to <strong className="text-cream">{emailAddress}</strong>. I will reply to you as soon as possible.
                 </p>
-                <div className="flex gap-3 justify-center">
+                <div className="flex flex-wrap gap-3 justify-center">
                   <button
                     onClick={handleReset}
                     className="px-5 py-2.5 rounded-xl bg-[#282828] hover:bg-[#333333] text-cream text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
                   >
                     Send Another Message
                   </button>
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-black text-xs font-bold uppercase tracking-wider transition-colors no-underline"
+                  >
+                    <WhatsAppIcon size={15} />
+                    <span>Chat on WhatsApp</span>
+                  </a>
                   <button
                     onClick={onClose}
-                    className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+                    className="px-5 py-2.5 rounded-xl bg-[#202020] hover:bg-[#2A2A2A] text-cream text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
                   >
                     Done
                   </button>
@@ -209,12 +291,23 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                 <p className="text-xs sm:text-sm text-[#9FA8B0] mt-2 mb-4 leading-relaxed">
                   FormSubmit sent a 1-click confirmation link to <strong className="text-cream">{emailAddress}</strong>. Once you click "Activate Form" in that email, all future submissions will arrive directly in your inbox with 100% background delivery!
                 </p>
-                <button
-                  onClick={handleReset}
-                  className="px-5 py-2.5 rounded-xl bg-[#282828] hover:bg-[#333333] text-cream text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
-                >
-                  OK, Got It
-                </button>
+                <div className="flex gap-2 justify-center">
+                  <button
+                    onClick={handleReset}
+                    className="px-5 py-2.5 rounded-xl bg-[#282828] hover:bg-[#333333] text-cream text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+                  >
+                    OK, Got It
+                  </button>
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-black text-xs font-bold uppercase tracking-wider transition-colors no-underline"
+                  >
+                    <WhatsAppIcon size={15} />
+                    <span>WhatsApp Me</span>
+                  </a>
+                </div>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -281,10 +374,20 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
               </form>
             )}
 
-            {/* Social Links */}
+            {/* Social Links & WhatsApp */}
             <div className="mt-6 pt-6 border-t border-[#262626] flex items-center justify-between text-xs text-[#808890]">
-              <span>Follow / Connect:</span>
+              <span>Quick Connect:</span>
               <div className="flex items-center gap-4">
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-[#4ADE80] hover:text-[#25D366] transition-colors font-medium"
+                  title="WhatsApp"
+                >
+                  <WhatsAppIcon size={16} />
+                  <span>WhatsApp</span>
+                </a>
                 <a
                   href="https://github.com/ZeeshanAbbasnetizen"
                   target="_blank"

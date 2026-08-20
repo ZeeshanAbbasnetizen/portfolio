@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Sparkles, CheckCircle2, ArrowRight, Copy, Check } from 'lucide-react';
+import { EMAIL_CONFIG } from '../config/email';
 
 interface PriceModalProps {
   isOpen: boolean;
@@ -8,9 +9,31 @@ interface PriceModalProps {
   onOpenContact: () => void;
 }
 
+const WhatsAppIcon: React.FC<{ size?: number; className?: string }> = ({ size = 16, className = '' }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M17.472 14.382C17.152 14.222 15.586 13.454 15.293 13.347C15 13.24 14.787 13.187 14.574 13.507C14.36 13.827 13.748 14.547 13.561 14.76C13.375 14.974 13.188 15 12.868 14.84C12.548 14.68 11.517 14.342 10.293 13.251C9.341 12.403 8.698 11.354 8.511 11.034C8.325 10.714 8.491 10.541 8.652 10.381C8.796 10.237 8.972 10.007 9.132 9.82C9.292 9.633 9.345 9.5 9.452 9.287C9.559 9.073 9.505 8.887 9.425 8.727C9.345 8.567 8.705 7.02 8.439 6.38C8.179 5.757 7.915 5.842 7.719 5.832C7.532 5.823 7.319 5.821 7.106 5.821C6.892 5.821 6.546 5.901 6.253 6.221C5.959 6.541 5.133 7.314 5.133 8.887C5.133 10.46 6.28 11.98 6.44 12.193C6.6 12.407 8.694 15.639 11.905 17.025C12.669 17.355 13.266 17.552 13.731 17.7C14.499 17.944 15.197 17.91 15.751 17.827C16.369 17.735 17.653 17.05 17.92 16.297C18.187 15.544 18.187 14.904 18.107 14.77C18.027 14.637 17.813 14.544 17.472 14.382Z"
+      fill="currentColor"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 2C6.477 2 2 6.477 2 12C2 13.819 2.486 15.525 3.332 17L2.052 21.673C1.984 21.921 2.059 22.185 2.247 22.361C2.435 22.537 2.705 22.593 2.949 22.507L7.433 20.932C8.829 21.621 10.373 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2ZM4 12C4 7.582 7.582 4 12 4C16.418 4 20 7.582 20 12C20 16.418 16.418 20 12 20C10.598 20 9.278 19.638 8.131 19.004L7.842 18.843L4.996 19.839L5.808 16.877L5.626 16.574C4.604 14.869 4 12.502 4 12Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
 export const PriceModal: React.FC<PriceModalProps> = ({ isOpen, onClose, onOpenContact }) => {
   const [copied, setCopied] = useState(false);
-  const emailAddress = 'zeeshan.abbas.dev@gmail.com';
+  const emailAddress = EMAIL_CONFIG.recipientEmail;
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -73,8 +96,7 @@ export const PriceModal: React.FC<PriceModalProps> = ({ isOpen, onClose, onOpenC
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="relative w-full max-w-2xl bg-[#0E0E0E] border border-[#262626] rounded-[32px] sm:rounded-[44px] p-6 sm:p-10 md:p-12 text-[#D7E2EA] shadow-[0_20px_70px_rgba(0,0,0,0.9)] z-10 my-auto overflow-hidden"
           >
-            {/* 1. Floating 3D Decorative Assets (Matching About Me Section) */}
-            {/* Top-Left Floating Moon */}
+            {/* 1. Floating 3D Decorative Assets */}
             <div className="absolute -top-6 -left-6 sm:-top-8 sm:-left-8 pointer-events-none select-none z-0 opacity-40 sm:opacity-50">
               <motion.img
                 animate={{
@@ -92,7 +114,6 @@ export const PriceModal: React.FC<PriceModalProps> = ({ isOpen, onClose, onOpenC
               />
             </div>
 
-            {/* Top-Right Floating Lego */}
             <div className="absolute -top-6 -right-6 sm:-top-8 sm:-right-8 pointer-events-none select-none z-0 opacity-30 sm:opacity-40">
               <motion.img
                 animate={{
@@ -111,7 +132,6 @@ export const PriceModal: React.FC<PriceModalProps> = ({ isOpen, onClose, onOpenC
               />
             </div>
 
-            {/* Bottom Floating 3D Accent */}
             <div className="absolute -bottom-8 -right-8 pointer-events-none select-none z-0 opacity-30 sm:opacity-40">
               <motion.img
                 animate={{
@@ -147,7 +167,7 @@ export const PriceModal: React.FC<PriceModalProps> = ({ isOpen, onClose, onOpenC
                 <span>Pricing &amp; Rates</span>
               </div>
 
-              {/* Main Heading (About Me hero-heading gradient) */}
+              {/* Main Heading */}
               <h3 className="hero-heading font-black uppercase text-3xl sm:text-4xl md:text-5xl leading-tight tracking-tight mb-4 select-none">
                 Custom Pricing
               </h3>
@@ -178,8 +198,8 @@ export const PriceModal: React.FC<PriceModalProps> = ({ isOpen, onClose, onOpenC
                 ))}
               </div>
 
-              {/* Signature About Me CTA Button */}
-              <div className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
+              {/* Signature CTA Buttons */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 w-full justify-center">
                 <motion.button
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.97 }}
@@ -198,6 +218,15 @@ export const PriceModal: React.FC<PriceModalProps> = ({ isOpen, onClose, onOpenC
                   <span>Contact Me For Details</span>
                   <ArrowRight size={16} />
                 </motion.button>
+                <a
+                  href={EMAIL_CONFIG.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full text-black font-bold uppercase tracking-wider font-kanit text-xs sm:text-sm px-7 py-3.5 sm:py-4 bg-[#25D366] hover:bg-[#20bd5a] transition-colors no-underline cursor-pointer shadow-lg"
+                >
+                  <WhatsAppIcon size={18} />
+                  <span>WhatsApp Chat</span>
+                </a>
               </div>
 
               {/* Direct Email quick action */}
