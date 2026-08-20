@@ -57,12 +57,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact, onOpenP
       {/* Subtle depth vignette overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/40 pointer-events-none" />
 
-      {/* 2. Big Scrolling Name Track (z-10) with fluid responsive scaling */}
+      {/* 2. Big Scrolling Name Track (z-10) positioned directly behind the head in both mobile & desktop */}
       <div
-        className="absolute inset-x-0 top-[12vh] sm:top-[12vh] md:top-[14vh] z-10 overflow-hidden anim-fade-up pointer-events-none"
+        className="absolute inset-x-0 top-[30vh] sm:top-[16vh] md:top-[18vh] lg:top-[16vh] z-10 overflow-hidden anim-fade-up pointer-events-none"
         style={{ animationDelay: '500ms' }}
       >
-        <div className="marquee-track flex w-max whitespace-nowrap font-kanit text-[clamp(4.2rem,13.5vh,6.8rem)] sm:text-[clamp(6.5rem,20vh,14rem)] md:text-[clamp(8.5rem,25vh,18rem)] leading-none text-cream font-black tracking-tight opacity-85">
+        <div className="marquee-track flex w-max whitespace-nowrap font-kanit text-[clamp(4.5rem,14vw,8rem)] sm:text-[clamp(6.5rem,20vh,14rem)] md:text-[clamp(8.5rem,25vh,18rem)] leading-none text-cream font-black tracking-tight opacity-85">
           <span className="pr-[10vw] sm:pr-[14vw]">Hi,&nbsp;&nbsp;I am Zeeshan</span>
           <span className="pr-[10vw] sm:pr-[14vw]">Hi,&nbsp;&nbsp;I am Zeeshan</span>
           <span className="pr-[10vw] sm:pr-[14vw]">Hi,&nbsp;&nbsp;I am Zeeshan</span>
@@ -70,8 +70,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact, onOpenP
         </div>
       </div>
 
-      {/* 3. Hero Portrait: Grounded at bottom, centered horizontally (z-20) */}
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-0 z-20 w-[270px] xs:w-[310px] sm:w-[380px] md:w-[460px] lg:w-[540px] pointer-events-auto flex items-end justify-center">
+      {/* 3. Hero Portrait: Grounded at bottom (z-20), avatar scales fluidly with screen size */}
+      <div className="absolute left-1/2 -translate-x-1/2 bottom-0 z-20 w-[clamp(250px,72vw,560px)] pointer-events-auto flex items-end justify-center">
         <FadeIn delay={0.6} y={30} duration={0.8} className="w-full flex items-end justify-center">
           <Magnet
             padding={150}
@@ -83,7 +83,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact, onOpenP
             <img
               src="/assets/hero-portrait-clean.png"
               alt="Zeeshan 3D Avatar Portrait"
-              className="w-full h-auto max-h-[64vh] xs:max-h-[66vh] sm:max-h-[78vh] md:max-h-[82vh] object-contain object-bottom drop-shadow-[0_15px_35px_rgba(0,0,0,0.9)] filter brightness-[1.02] cursor-pointer"
+              className="w-full h-auto max-h-[62vh] xs:max-h-[65vh] sm:max-h-[78vh] md:max-h-[82vh] object-contain object-bottom drop-shadow-[0_15px_35px_rgba(0,0,0,0.9)] filter brightness-[1.02] cursor-pointer"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = '/assets/portrait-cutout.png';
               }}
