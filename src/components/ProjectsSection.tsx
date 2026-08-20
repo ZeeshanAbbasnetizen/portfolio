@@ -27,7 +27,7 @@ const projectsData: Project[] = [
     number: '02',
     category: 'Client Project',
     name: 'Rose Palace GYM',
-    liveUrl: 'https://rose-palace-gym-o6bs.vercel.app/',
+    liveUrl: 'https://rose-palace-gym.vercel.app/',
     col1Img1: 'https://raw.githubusercontent.com/ZeeshanAbbasnetizen/Rose-Palace-GYM/main/preview%20(3).webp',
     col1Img2: 'https://raw.githubusercontent.com/ZeeshanAbbasnetizen/Rose-Palace-GYM/main/preview%20(4).webp',
     col2Img: 'https://raw.githubusercontent.com/ZeeshanAbbasnetizen/Rose-Palace-GYM/main/preview%20(5).webp',
