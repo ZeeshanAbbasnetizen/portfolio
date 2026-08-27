@@ -7,11 +7,8 @@ import {
   Server,
   Database,
   Wrench,
-  Copy,
-  Check,
   Sparkles,
   Terminal,
-  ExternalLink,
 } from 'lucide-react';
 
 export type TechCategory = 'all' | 'languages' | 'frontend' | 'backend' | 'databases' | 'tools';
@@ -495,22 +492,11 @@ const categoryTabs = [
 
 export const TechStackSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<TechCategory>('all');
-  const [copied, setCopied] = useState(false);
-  const [showResumeSnippet, setShowResumeSnippet] = useState(false);
 
   const filteredTech =
     activeCategory === 'all'
       ? techStackData
       : techStackData.filter((item) => item.category === activeCategory);
-
-  const resumeCopyText = `Frontend: HTML5, CSS3, JavaScript, React.js, Tailwind CSS\nBackend: Node.js, Express.js, REST APIs\nDatabases: MongoDB, PostgreSQL\nVersion Control & Tools: Git, GitHub, VS Code, Postman, Vercel`;
-
-  const handleCopyResume = () => {
-    navigator.clipboard.writeText(resumeCopyText).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    });
-  };
 
   return (
     <section
@@ -692,100 +678,6 @@ export const TechStackSection: React.FC = () => {
             ))}
           </AnimatePresence>
         </motion.div>
-
-        {/* Copy for Resume / Quick-Export Interactive Banner */}
-        <FadeIn delay={0.4} y={30} className="w-full mt-14 sm:mt-20">
-          <div className="relative w-full rounded-[28px] sm:rounded-[36px] bg-gradient-to-b from-[#181818] to-[#101010] border border-neutral-800 p-6 sm:p-8 md:p-10 shadow-2xl overflow-hidden">
-            {/* Background accent streak */}
-            <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-              {/* Left text info */}
-              <div className="max-w-xl">
-                <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#B600A8] font-bold mb-2">
-                  <Sparkles size={14} />
-                  <span>Resume Ready</span>
-                </div>
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase text-cream tracking-wide">
-                  Categorized Resume Template
-                </h3>
-                <p className="text-xs sm:text-sm text-[#9FA8B0] mt-2 leading-relaxed">
-                  Need this stack formatted for hiring managers, ATS systems, or project briefs?
-                  Copy the categorized text with one click.
-                </p>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 shrink-0 w-full sm:w-auto">
-                <button
-                  onClick={() => setShowResumeSnippet(!showResumeSnippet)}
-                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider bg-neutral-900 hover:bg-neutral-800 text-cream border border-neutral-700 transition-colors cursor-pointer select-none"
-                >
-                  <span>{showResumeSnippet ? 'Hide Template' : 'View Template'}</span>
-                </button>
-
-                <motion.button
-                  onClick={handleCopyResume}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider text-white shadow-lg cursor-pointer select-none outline outline-2 outline-white -outline-offset-[3px]"
-                  style={{
-                    background:
-                      'linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%)',
-                    boxShadow:
-                      '0px 4px 12px rgba(181, 1, 167, 0.3), 2px 2px 8px #7721B1 inset',
-                  }}
-                >
-                  {copied ? (
-                    <>
-                      <Check size={16} className="text-green-300" />
-                      <span className="text-green-200">Copied to Clipboard!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy size={16} />
-                      <span>Copy Resume Stack</span>
-                    </>
-                  )}
-                </motion.button>
-              </div>
-            </div>
-
-            {/* Expandable Preview Snippet */}
-            <AnimatePresence>
-              {showResumeSnippet && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden mt-6 pt-6 border-t border-neutral-800"
-                >
-                  <div className="relative rounded-2xl bg-black/70 border border-neutral-800/90 p-4 sm:p-5 font-mono text-xs sm:text-sm text-neutral-300 overflow-x-auto leading-relaxed">
-                    <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm text-[#D7E2EA]">
-                      <div className="mb-2">
-                        <span className="text-[#61DAFB] font-bold">Frontend:</span> HTML5, CSS3,
-                        JavaScript, React.js, Tailwind CSS
-                      </div>
-                      <div className="mb-2">
-                        <span className="text-[#5FA04E] font-bold">Backend:</span> Node.js,
-                        Express.js, REST APIs
-                      </div>
-                      <div className="mb-2">
-                        <span className="text-[#4169E1] font-bold">Databases:</span> MongoDB,
-                        PostgreSQL
-                      </div>
-                      <div>
-                        <span className="text-[#F05032] font-bold">Version Control &amp; Tools:</span>{' '}
-                        Git, GitHub, VS Code, Postman, Vercel
-                      </div>
-                    </pre>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </FadeIn>
       </div>
     </section>
   );
