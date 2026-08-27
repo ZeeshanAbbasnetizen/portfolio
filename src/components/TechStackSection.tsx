@@ -501,7 +501,7 @@ export const TechStackSection: React.FC = () => {
   return (
     <section
       id="stack"
-      className="relative min-h-screen w-full bg-[#0C0C0C] text-[#D7E2EA] px-5 sm:px-8 md:px-10 py-24 sm:py-28 md:py-32 flex flex-col items-center justify-center overflow-hidden"
+      className="relative min-h-screen w-full bg-[#0C0C0C] text-[#D7E2EA] px-5 sm:px-8 md:px-10 pt-24 pb-28 sm:pt-28 sm:pb-32 md:pt-32 md:pb-36 flex flex-col items-center justify-start overflow-hidden"
     >
       {/* Ambient background glow elements */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] h-[350px] bg-purple-900/10 rounded-full blur-[140px] pointer-events-none" />
@@ -566,7 +566,7 @@ export const TechStackSection: React.FC = () => {
 
         {/* Category Filter Tabs */}
         <FadeIn delay={0.3} y={20} className="w-full mb-10 sm:mb-14">
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 p-1.5 bg-[#141414]/90 backdrop-blur-md rounded-2xl sm:rounded-full border border-neutral-800 max-w-3xl mx-auto shadow-2xl">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5 p-1.5 bg-[#141414]/90 backdrop-blur-md rounded-2xl sm:rounded-full border border-neutral-800 max-w-4xl mx-auto shadow-2xl">
             {categoryTabs.map((tab) => {
               const TabIcon = tab.icon;
               const isActive = activeCategory === tab.id;
@@ -574,7 +574,7 @@ export const TechStackSection: React.FC = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveCategory(tab.id)}
-                  className={`relative flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all duration-300 cursor-pointer select-none ${
+                  className={`relative flex items-center gap-2 px-3.5 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider transition-colors duration-200 cursor-pointer select-none ${
                     isActive
                       ? 'text-white'
                       : 'text-[#9FA8B0] hover:text-cream hover:bg-neutral-800/40'
@@ -584,10 +584,10 @@ export const TechStackSection: React.FC = () => {
                     <motion.div
                       layoutId="activeCategoryPill"
                       className="absolute inset-0 rounded-xl sm:rounded-full bg-gradient-to-r from-[#B600A8] via-[#7621B0] to-[#BE4C00] shadow-[0_0_20px_rgba(182,0,168,0.4)]"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                     />
                   )}
-                  <span className="relative z-10 flex items-center gap-2">
+                  <span className="relative z-10 flex items-center gap-1.5 sm:gap-2">
                     <TabIcon size={15} />
                     <span>{tab.label}</span>
                     <span
@@ -606,84 +606,78 @@ export const TechStackSection: React.FC = () => {
           </div>
         </FadeIn>
 
-        {/* Tech Grid Cards */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 w-full"
-          >
-            {filteredTech.map((tech, index) => (
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.22,
-                  delay: Math.min(index * 0.02, 0.18),
-                  ease: 'easeOut',
-                }}
-                whileHover={{ y: -5, transition: { duration: 0.15 } }}
-                key={tech.name}
-                className="group relative flex flex-col justify-between p-5 sm:p-6 rounded-[24px] bg-[#141414] border border-neutral-800/80 hover:border-neutral-600 transition-colors duration-200 overflow-hidden shadow-xl"
-                style={{
-                  boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)',
-                }}
-              >
-                {/* Dynamic Brand Hover Glow */}
+        {/* Tech Grid Container with Fixed Minimum Height to Prevent Jumping/Scrolling */}
+        <div className="w-full min-h-[580px] sm:min-h-[640px] lg:min-h-[680px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeCategory}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15, ease: 'easeInOut' }}
+              className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 w-full content-start"
+            >
+              {filteredTech.map((tech) => (
                 <div
-                  className="absolute -top-16 -right-16 w-32 h-32 rounded-full blur-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none"
-                  style={{ backgroundColor: tech.color }}
-                />
-
-                {/* Subtle top card border highlight on hover */}
-                <div
-                  className="absolute inset-x-0 top-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  key={tech.name}
+                  className="group relative flex flex-col justify-between p-5 sm:p-6 rounded-[24px] bg-[#141414] border border-neutral-800/80 hover:border-neutral-600 transition-all duration-200 overflow-hidden shadow-xl hover:-translate-y-1.5"
                   style={{
-                    background: `linear-gradient(90deg, transparent, ${tech.color}, transparent)`,
+                    boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)',
                   }}
-                />
+                >
+                  {/* Dynamic Brand Hover Glow */}
+                  <div
+                    className="absolute -top-16 -right-16 w-32 h-32 rounded-full blur-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none"
+                    style={{ backgroundColor: tech.color }}
+                  />
 
-                {/* Card Top: Logo & Category Badge */}
-                <div className="flex items-start justify-between gap-3 mb-4">
-                  <div className="p-3 rounded-2xl bg-neutral-900/90 border border-neutral-800/80 group-hover:border-neutral-700 transition-colors shadow-inner flex items-center justify-center shrink-0">
-                    {tech.icon}
-                  </div>
+                  {/* Subtle top card border highlight on hover */}
+                  <div
+                    className="absolute inset-x-0 top-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, ${tech.color}, transparent)`,
+                    }}
+                  />
 
-                  <div className="flex flex-col items-end gap-1">
-                    <span className="text-[10px] uppercase tracking-wider font-semibold text-neutral-400 bg-neutral-900/90 px-2 py-0.5 rounded-md border border-neutral-800">
-                      {tech.categoryLabel}
-                    </span>
-                    {tech.badge && (
-                      <span
-                        className="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded"
-                        style={{
-                          backgroundColor: `${tech.color}22`,
-                          color: tech.color,
-                          border: `1px solid ${tech.color}44`,
-                        }}
-                      >
-                        {tech.badge}
+                  {/* Card Top: Logo & Category Badge */}
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <div className="p-3 rounded-2xl bg-neutral-900/90 border border-neutral-800/80 group-hover:border-neutral-700 transition-colors shadow-inner flex items-center justify-center shrink-0">
+                      {tech.icon}
+                    </div>
+
+                    <div className="flex flex-col items-end gap-1">
+                      <span className="text-[10px] uppercase tracking-wider font-semibold text-neutral-400 bg-neutral-900/90 px-2 py-0.5 rounded-md border border-neutral-800">
+                        {tech.categoryLabel}
                       </span>
-                    )}
+                      {tech.badge && (
+                        <span
+                          className="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded"
+                          style={{
+                            backgroundColor: `${tech.color}22`,
+                            color: tech.color,
+                            border: `1px solid ${tech.color}44`,
+                          }}
+                        >
+                          {tech.badge}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Card Bottom: Tech Name & Description */}
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-bold uppercase tracking-wide text-cream group-hover:text-white transition-colors flex items-center gap-1.5">
+                      {tech.name}
+                    </h3>
+                    <p className="text-xs sm:text-sm font-light text-[#9FA8B0] mt-1 leading-relaxed line-clamp-2">
+                      {tech.tagline}
+                    </p>
                   </div>
                 </div>
-
-                {/* Card Bottom: Tech Name & Description */}
-                <div>
-                  <h3 className="text-lg sm:text-xl font-bold uppercase tracking-wide text-cream group-hover:text-white transition-colors flex items-center gap-1.5">
-                    {tech.name}
-                  </h3>
-                  <p className="text-xs sm:text-sm font-light text-[#9FA8B0] mt-1 leading-relaxed line-clamp-2">
-                    {tech.tagline}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   );
