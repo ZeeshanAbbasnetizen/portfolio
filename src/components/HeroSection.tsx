@@ -24,6 +24,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact, onOpenP
 
   const navItems = [
     { label: 'About', href: '#about' },
+    { label: 'Stack', href: '#stack' },
     { label: 'Price', href: '#services', isPrice: true },
     { label: 'Projects', href: '#projects' },
     { label: 'Contact', href: '#contact', isContact: true },

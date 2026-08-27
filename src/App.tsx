@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
+import { TechStackSection } from './components/TechStackSection';
 import { ServicesSection } from './components/ServicesSection';
 import { ProjectsSection } from './components/ProjectsSection';
 import { ContactModal } from './components/ContactModal';
@@ -50,6 +51,9 @@ export const App: React.FC = () => {
       <main className="relative z-10">
         {/* About Section */}
         <AboutSection onOpenContact={() => setIsContactOpen(true)} />
+
+        {/* Tech Stack Section */}
+        <TechStackSection />
 
         {/* Services Section (White card layer) */}
         <ServicesSection />
