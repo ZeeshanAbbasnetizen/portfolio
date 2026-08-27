@@ -607,21 +607,27 @@ export const TechStackSection: React.FC = () => {
         </FadeIn>
 
         {/* Tech Grid Cards */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 w-full"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredTech.map((tech) => (
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 w-full"
+          >
+            {filteredTech.map((tech, index) => (
               <motion.div
-                layout
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
-                whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.22,
+                  delay: Math.min(index * 0.02, 0.18),
+                  ease: 'easeOut',
+                }}
+                whileHover={{ y: -5, transition: { duration: 0.15 } }}
                 key={tech.name}
-                className="group relative flex flex-col justify-between p-5 sm:p-6 rounded-[24px] bg-[#141414] border border-neutral-800/80 hover:border-neutral-600 transition-all duration-300 overflow-hidden shadow-xl"
+                className="group relative flex flex-col justify-between p-5 sm:p-6 rounded-[24px] bg-[#141414] border border-neutral-800/80 hover:border-neutral-600 transition-colors duration-200 overflow-hidden shadow-xl"
                 style={{
                   boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)',
                 }}
@@ -676,8 +682,8 @@ export const TechStackSection: React.FC = () => {
                 </div>
               </motion.div>
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );
