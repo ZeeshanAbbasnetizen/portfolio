@@ -8,7 +8,6 @@ import {
   Database,
   Wrench,
   Sparkles,
-  Terminal,
 } from 'lucide-react';
 
 export type TechCategory = 'all' | 'languages' | 'frontend' | 'backend' | 'databases' | 'tools';
@@ -518,16 +517,8 @@ export const TechStackSection: React.FC = () => {
       />
 
       <div className="relative z-10 max-w-6xl w-full mx-auto flex flex-col items-center">
-        {/* Section Pill Badge */}
-        <FadeIn delay={0} y={20}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-900/90 border border-neutral-800 text-xs uppercase tracking-widest text-[#B600A8] font-bold mb-6 shadow-inner">
-            <Terminal size={14} className="text-[#B600A8]" />
-            <span>Core Capabilities &amp; Architecture</span>
-          </div>
-        </FadeIn>
-
         {/* Section Heading */}
-        <FadeIn delay={0.1} y={30}>
+        <FadeIn delay={0} y={30}>
           <h2 className="hero-heading font-black uppercase text-center text-[clamp(2.8rem,10vw,140px)] leading-none tracking-tight mb-4 sm:mb-6 select-none">
             Tech Stack
           </h2>
