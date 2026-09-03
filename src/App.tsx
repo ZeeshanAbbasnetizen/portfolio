@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
 import { TechStackSection } from './components/TechStackSection';
@@ -41,11 +42,14 @@ export const App: React.FC = () => {
 
   return (
     <div className="bg-[#0C0C0C] min-h-screen text-[#D7E2EA] font-kanit overflow-x-clip selection:bg-purple-600 selection:text-white">
-      {/* 1. Hero Section (Pixel-faithful Black/Cream Editorial) */}
-      <HeroSection
+      {/* Scroll-Triggered Liquid Glass Navbar */}
+      <Navbar
         onOpenContact={() => setIsContactOpen(true)}
         onOpenPrice={() => setIsPriceOpen(true)}
       />
+
+      {/* 1. Hero Section (Pixel-faithful Black/Cream Editorial) */}
+      <HeroSection />
 
       {/* 2. Main Body Content (Dark Kanit-based flow) */}
       <main className="relative z-10">
